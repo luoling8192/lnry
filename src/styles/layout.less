@@ -1,0 +1,127 @@
+@import '../global';
+
+.header {
+  position: fixed;
+  z-index: 999;
+  width: 100%;
+  height: 90px;
+  //padding: 10px;
+  margin: 0 auto;
+
+  .box {
+    position: relative;
+    width: 90%;
+    height: 100%;
+    margin: 10px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 2px;
+    backdrop-filter: blur(10px);
+    transition: all 0.2s;
+
+    * {
+      vertical-align: top;
+    }
+
+    .logo {
+      display: inline-block;
+      width: 180px;
+      height: 60px;
+    }
+
+    .menu {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      display: inline-block;
+      background: transparent;
+      border: 0;
+
+      li:hover::after {
+        border-bottom: 2px solid @primary-color;
+      }
+
+      a {
+        font-size: 1rem;
+
+        &:hover {
+          color: @primary-color;
+        }
+      }
+    }
+
+    .boxScroll {
+      width: 100%;
+      height: 60px;
+      margin-top: 0;
+      border-radius: 0;
+      box-shadow: 0 2px 5px grey;
+
+      .logo {
+        position: relative;
+        bottom: 15px;
+        height: 50px;
+      }
+
+      .menu {
+        bottom: 5px;
+      }
+    }
+  }
+}
+
+.carousel {
+  z-index: -1;
+  min-height: 80%;
+}
+
+.bigButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 190px;
+  height: 50px;
+  color: #fff;
+  line-height: 50px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.3);
+  border: 2px solid #fff;
+  border-radius: 32px;
+  transform: translateX(-50%) translateY(-50%);
+
+  &:hover {
+    //background: rgba(239,65,54,.6);
+    color: #fff;
+    background: rgba(255, 255, 255, 0.5);
+    border: 2px solid #fff;
+  }
+}
+
+.backTop svg {
+  position: fixed;
+  right: 60px;
+  bottom: 60px;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+}
+
+.content {
+  min-height: 100%;
+  margin-bottom: 6rem;
+}
+
+.footer {
+  width: 100%;
+  height: 80px;
+  color: gray;
+  text-align: center;
+  background-color: #fff;
+  box-shadow: 0 -0.5px 5px grey;
+
+  span {
+    position: relative;
+    top: 10px;
+    display: block;
+  }
+}

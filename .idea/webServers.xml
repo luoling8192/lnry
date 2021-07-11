@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="147f0d2c-f010-45bb-9f10-998cc20b2aa4" name="tencent" url="http://119.45.41.68:9000">
+        <fileTransfer rootFolder="/www/wwwroot/umi-milk" accessType="SFTP" host="tencent" port="22" sshConfigId="2b1e72ed-dcdb-4850-b62f-cd9cffde278f" sshConfig="root@tencent:22 key" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

@@ -1,0 +1,64 @@
+@primary-color: #ef4136;
+@color-1: #fff3f0;
+@color-2: #ffe4de;
+@color-3: #ffc1b5;
+@color-4: #ff9c8c;
+@color-5: #fc7262;
+@color-6: #ef4136;
+@color-7: #c92a24;
+@color-8: #a31515;
+@color-9: #7d0a0e;
+@color-10: #57060b;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root,
+.layout {
+  height: 100%;
+  background: #fff;
+  scroll-behavior: smooth;
+}
+
+.ant-typography {
+  width: 100%;
+  margin: 20px auto;
+  padding: 0 5%;
+
+  h1 {
+    display: inline-block;
+    width: auto;
+    margin: 60px 0 20px;
+    padding: 0 0 6px;
+    font-size: 3rem !important;
+    border-bottom: 5px solid @primary-color;
+  }
+}
+
+.ant-pagination {
+  text-align: right;
+}
+
+.paragraph {
+  font-size: 1.5rem;
+}
+
+@media screen and (max-width: 1023px) {
+  .ant-typography {
+    text-align: center;
+  }
+
+  .ant-pagination {
+    text-align: center;
+  }
+}
+
+.form {
+  width: 70%;
+  margin: 0 auto;
+}
