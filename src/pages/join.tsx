@@ -20,6 +20,11 @@ import {
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 
+// TODO: 移动端日期选择器
+function addressPicker() {
+  return false;
+}
+
 export default class JoinPage extends React.Component<any, any> {
   formRef = React.createRef<FormInstance>();
 

@@ -1,30 +1,56 @@
-import React from 'react';
-import { Menu as AntMenu } from 'antd';
-import { ReactComponent as Logo } from '../assets/logo.svg';
-import styles from '@/styles/layout.less';
-import { history } from 'umi';
-import { Drawer, NavBar, Icon, List } from 'antd-mobile';
+import { ReactComponent as Logo } from '@/assets/logo.svg';
 import scrollToAnchor from '@/scripts/scrollToAnchor';
+import styles from '@/styles/layout.less';
+import mobileStyles from '@/styles/mobileMenu.less';
+import { Menu as AntMenu } from 'antd';
+import { Icon, NavBar } from 'antd-mobile';
+import React from 'react';
+import { history } from 'umi';
 
 const menu = require('@/config/menu.json');
 
 class MobileComponent extends React.Component<any, any> {
+  state = {
+    open: false,
+  };
+
+  onOpenChange = () => {
+    this.setState({ open: !this.state.open });
+  };
+
   render() {
     let menu_list = Object.keys(menu).map(($val: any) => (
-      <List.Item key={$val}>
+      <AntMenu.Item key={$val}>
         <a
+          key={$val}
           onClick={() => {
             history.push(menu[$val].url);
             scrollToAnchor(menu[$val].hash);
+            this.onOpenChange();
           }}
         >
           {menu[$val].title}
         </a>
-      </List.Item>
+      </AntMenu.Item>
     ));
 
-    // TODO: 适配移动端菜单
-    return <div/>;
+    return (
+      <div>
+        <NavBar
+          mode="light"
+          icon={<Icon type="ellipsis" onClick={this.onOpenChange} />}
+          className={mobileStyles.navbar}
+        >
+          岭南乳业
+        </NavBar>
+        <div
+          className={mobileStyles.drawer}
+          style={{ display: this.state.open ? 'block' : 'none' }}
+        >
+          <AntMenu>{menu_list}</AntMenu>
+        </div>
+      </div>
+    );
   }
 }
 

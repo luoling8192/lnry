@@ -1,7 +1,7 @@
+import ProductViewer from '@/components/ProductViewer';
 import { getProduct } from '@/services/api';
 import productStyles from '@/styles/productView.less';
 import { Image, Pagination, Typography } from 'antd';
-import ProductViewer from '@/components/ProductViewer';
 import { Carousel } from 'antd-mobile';
 import React from 'react';
 
@@ -23,7 +23,7 @@ class MobileProductShow extends React.Component<any, any> {
     return (
       <Typography id={'show'}>
         <Typography.Title>产品展示</Typography.Title>
-        <Carousel>
+        <Carousel style={{ minHeight: '200px' }}>
           {this.state.list &&
             this.state.list.length > 0 &&
             this.state.list.map(($data: any) => (
