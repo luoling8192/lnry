@@ -1,53 +1,188 @@
-import { showData } from '@/services/api';
-import React, { useEffect, useState } from 'react';
-import { Typography, Form, Input, Cascader, Select, Button, Image } from 'antd';
-import ReactMarkdown from 'react-markdown';
-//import gfm from "remark-gfm";
+import styles from '@/global.less';
 
 // @ts-ignore
 import { getLocation } from '@/scripts/getLocation';
+import transPostalCode from '@/scripts/transPostalCode';
+import { getCaptcha, postJoin, showData } from '@/services/api';
+import {
+  Button,
+  Cascader,
+  Col,
+  Form,
+  FormInstance,
+  Input,
+  Modal,
+  Row,
+  Select,
+  Skeleton,
+  Typography,
+} from 'antd';
+import React from 'react';
+import ReactMarkdown from 'react-markdown';
 
-export default function JoinPage() {
-  const [source, setSource] = useState('Loading...');
-  useEffect(() => {
-    const fetchSource = async () => {
-      // @ts-ignore
-      setSource((await showData('join'))['content']);
+export default class JoinPage extends React.Component<any, any> {
+  formRef = React.createRef<FormInstance>();
+
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      captcha: {},
+      content: <Skeleton active />,
     };
+  }
 
-    fetchSource();
-    console.log(source);
-  }, []);
+  genNewCaptcha = async () => {
+    const captcha = await getCaptcha();
+    this.setState({ captcha: captcha });
+  };
 
-  return (
-    <Typography id={'join'}>
-      <Typography.Title>加入我们</Typography.Title>
-      <ReactMarkdown children={source} />
+  async componentDidMount() {
+    await this.genNewCaptcha();
 
-      <Typography.Title>在线投递</Typography.Title>
-      <Form layout={'vertical'} style={{ width: '70%', margin: '0 auto' }}>
-        <Form.Item name="name" label={'姓名'}>
-          <Input />
-        </Form.Item>
-        <Form.Item name="phoneNumber" label={'手机号'}>
-          <Input />
-        </Form.Item>
-        <Form.Item name="job" label={'岗位'}>
-          <Select defaultValue={'partner'}>
-            <Select.Option value={'partner'}>羊奶合伙人</Select.Option>
-          </Select>
-        </Form.Item>
-        <Form.Item name="address" label={'地址'}>
-          <Cascader options={getLocation()} />
-        </Form.Item>
-        <Form.Item name="CAPTCHA" label={'验证码'}>
-          <Image />
-          <Input />
-        </Form.Item>
-        <Form.Item style={{ textAlign: 'right' }}>
-          <Button>提交</Button>
-        </Form.Item>
-      </Form>
-    </Typography>
-  );
+    const content = (await showData('join'))['content'];
+    this.setState({
+      content: <ReactMarkdown children={content} />,
+    });
+  }
+
+  onFinish = async (values: any) => {
+    this.state.captcha
+      .verify(values.captcha)
+      .then(async () => {
+        try {
+          const address = await transPostalCode(values['address1']);
+          console.log(values);
+
+          postJoin({
+            name: values['name'],
+            phoneNumber: parseInt(values['phoneNumber']),
+            job: values['job'],
+            address1: address,
+            address2: values['address2'],
+          }).then(
+            ($obj: any) => {
+              Modal.success({
+                content: '提交成功 :)',
+              });
+
+              this.formRef.current!.resetFields();
+              return true;
+            },
+            ($err) => {
+              Modal.error({
+                title: '提交失败 :(',
+                content: $err,
+              });
+
+              return false;
+            },
+          );
+        } catch (e) {
+          alert(e);
+        }
+      })
+      .catch(() => {
+        Modal.error({
+          title: '提交失败 :(',
+          content: '验证码错误',
+        });
+
+        return false;
+      });
+  };
+
+  render() {
+    return (
+      <Typography id={'join'}>
+        <Typography.Title>加入我们</Typography.Title>
+        <Typography.Paragraph
+          style={{ textAlign: 'justify' }}
+          className={styles.paragraph}
+        >
+          {this.state.content}
+        </Typography.Paragraph>
+
+        <Typography.Title>在线投递</Typography.Title>
+        <Form
+          name={'form'}
+          ref={this.formRef}
+          layout={'vertical'}
+          className={styles.form}
+          onFinish={this.onFinish}
+        >
+          <Form.Item name={'name'} label={'姓名'} rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name={'phoneNumber'}
+            label={'手机号'}
+            rules={[
+              { required: true },
+              {
+                pattern: /^1[3-9][0-9]\d{8}$/,
+                message: '请输入正确的手机号',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name={'job'}
+            label={'岗位'}
+            rules={[{ required: true, message: '请选择岗位' }]}
+          >
+            <Select>
+              <Select.Option key={'羊奶合伙人'} value={'羊奶合伙人'}>
+                羊奶合伙人
+              </Select.Option>
+            </Select>
+          </Form.Item>
+          <Form.Item label={'地址'}>
+            <Row>
+              <Col span={8}>
+                <Form.Item
+                  name={'address1'}
+                  rules={[{ required: true, message: '请选择行政地址' }]}
+                >
+                  <Cascader options={getLocation()} />
+                </Form.Item>
+              </Col>
+              <Col span={16}>
+                <Form.Item name={'address2'}>
+                  <Input />
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form.Item>
+          <Form.Item label={'验证码'}>
+            <Row>
+              <Col>
+                <Form.Item
+                  name={'captcha'}
+                  rules={[{ required: true, message: '请输入验证码' }]}
+                >
+                  <Input autoComplete="off" />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <img
+                  src={this.state.captcha.url}
+                  width={'100px'}
+                  alt={'captcha'}
+                  onClick={this.genNewCaptcha}
+                />
+              </Col>
+            </Row>
+          </Form.Item>
+          <Form.Item style={{ textAlign: 'right' }}>
+            <Button type="primary" htmlType="submit">
+              提交
+            </Button>
+          </Form.Item>
+        </Form>
+      </Typography>
+    );
+  }
 }

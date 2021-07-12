@@ -1,9 +1,9 @@
-import * as AV from "leancloud-storage";
+import * as AV from 'leancloud-storage';
 
 export async function showData(type: string) {
   try {
-    const query = new AV.Query("intro");
-    query.equalTo("type", type);
+    const query = new AV.Query('intro');
+    query.equalTo('type', type);
     return (await query.find())[0].toJSON();
   } catch (e) {
     console.error(e);
@@ -23,17 +23,17 @@ async function getInfo($type: string, $objectID?: string) {
 }
 
 export async function getProduct($objectID?: string) {
-  const data = await getInfo("product", $objectID);
-  console.log($objectID)
+  const data = await getInfo('product', $objectID);
+  console.log($objectID);
   if ($objectID) return data;
   return data.map(($data: any) => ({
     ...$data.toJSON(),
-    url: $data.toJSON()["source"].url,
+    url: $data.toJSON()['source'].url,
   }));
 }
 
 export async function getNews($objectID?: string) {
-  const data = await getInfo("news", $objectID);
+  const data = await getInfo('news', $objectID);
   if ($objectID) return data;
   return data.map(($data: any) => {
     return { ...$data.toJSON() };
@@ -41,9 +41,9 @@ export async function getNews($objectID?: string) {
 }
 
 export async function getBanner() {
-  const data = await getInfo("banner");
+  const data = await getInfo('banner');
   return data.map(($data: any) => {
-    return $data.toJSON()["source"].url;
+    return $data.toJSON()['source'].url;
   });
 }
 
@@ -54,15 +54,30 @@ export async function getCaptcha() {
   });
 }
 
-export async function postTry($data: API.portTryData) {
+export async function postTry($data: API.postTryData) {
   try {
-    const form = AV.Object.extend("formTry");
+    const form = AV.Object.extend('formTry');
     const obj = new form();
-    obj.set("name", $data.name);
-    obj.set("phoneNumber", $data.phoneNumber);
-    obj.set("flavor", $data.flavor);
-    obj.set("address1", $data.address1);
-    obj.set("address2", $data.address2);
+    obj.set('name', $data.name);
+    obj.set('phoneNumber', $data.phoneNumber);
+    obj.set('flavor', $data.flavor);
+    obj.set('address1', $data.address1);
+    obj.set('address2', $data.address2);
+    return await obj.save();
+  } catch (e) {
+    alert(e);
+  }
+}
+
+export async function postJoin($data: API.postJoinData) {
+  try {
+    const form = AV.Object.extend('formJoin');
+    const obj = new form();
+    obj.set('name', $data.name);
+    obj.set('phoneNumber', $data.phoneNumber);
+    obj.set('job', $data.job);
+    obj.set('address1', $data.address1);
+    obj.set('address2', $data.address2);
     return await obj.save();
   } catch (e) {
     alert(e);
