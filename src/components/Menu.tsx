@@ -2,7 +2,7 @@ import { ReactComponent as Logo } from '@/assets/logo.svg';
 import scrollToAnchor from '@/scripts/scrollToAnchor';
 import styles from '@/styles/layout.less';
 import mobileStyles from '@/styles/mobileMenu.less';
-import { Menu as AntMenu } from 'antd';
+import { Divider, Menu as AntMenu } from 'antd';
 import { Icon, NavBar } from 'antd-mobile';
 import React from 'react';
 import { history } from 'umi';
@@ -47,7 +47,14 @@ class MobileComponent extends React.Component<any, any> {
           className={mobileStyles.drawer}
           style={{ display: this.state.open ? 'block' : 'none' }}
         >
-          <AntMenu>{menu_list}</AntMenu>
+          <AntMenu>
+            {menu_list}
+
+            <Divider />
+            <div className={mobileStyles.menuBottom}>
+              <Logo className={mobileStyles.logo} />
+            </div>
+          </AntMenu>
         </div>
       </div>
     );
