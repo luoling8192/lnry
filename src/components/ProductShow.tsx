@@ -23,7 +23,7 @@ class MobileProductShow extends React.Component<any, any> {
     return (
       <Typography id={'show'}>
         <Typography.Title>产品展示</Typography.Title>
-        <Carousel style={{ minHeight: '200px' }}>
+        <Carousel style={{ minHeight: '312px' }} autoplay>
           {this.state.list &&
             this.state.list.length > 0 &&
             this.state.list.map(($data: any) => (

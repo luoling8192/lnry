@@ -39,11 +39,18 @@ export async function getNews($objectID?: string) {
   });
 }
 
-export async function getBanner() {
-  const data = await getInfo('banner');
-  return data.map(($data: any) => {
-    return $data.toJSON()['source'].url;
-  });
+export async function getBanner($mobile?: boolean) {
+  try {
+    const query = new AV.Query('banner');
+    let data = [];
+    if ($mobile) query.equalTo('mobile', true);
+    data = await query.find();
+    return data.map(($data: any) => {
+      return $data.toJSON()['source'].url;
+    });
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 export async function getCaptcha() {
