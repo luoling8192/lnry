@@ -44,6 +44,7 @@ export async function getBanner($mobile?: boolean) {
     const query = new AV.Query('banner');
     let data = [];
     if ($mobile) query.equalTo('mobile', true);
+    else query.equalTo('mobile', false);
     data = await query.find();
     return data.map(($data: any) => {
       return $data.toJSON()['source'].url;
