@@ -1,3 +1,4 @@
+import { getBanner } from '@/services/api';
 import styles from '@/styles/layout.less';
 import { Carousel } from 'antd';
 import React from 'react';
@@ -7,9 +8,15 @@ export default class Banner extends React.Component<any, any> {
     super(props);
     this.state = {
       banner_url: [
-        'https://lc-gluttony.s3.amazonaws.com/GaPY9YzdWc2m/7dFypF8bugbr7u8qNwwbtejb5bYaPSGX/banner2.jpg',
+        'https://lc-gluttony.s3.amazonaws.com/GaPY9YzdWc2m/T8pQzgDqoJpdaqXcqlz5nVhNmNT8azDk/5820592a7090b.jpg',
       ],
     };
+  }
+
+  async componentDidMount() {
+    const data = await getBanner();
+    console.log(data);
+    this.setState({ banner_url: data });
   }
 
   render() {
