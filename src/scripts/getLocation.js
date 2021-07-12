@@ -2,7 +2,7 @@
 
 export function getLocation() {
   let antdDistrict = [];
-  let districtData = require('./location');
+  let districtData = require('../config/location.json');
   Object.keys(districtData).forEach((index) => {
     let itemLevel1 = {};
     let itemLevel2 = {};

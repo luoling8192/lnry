@@ -24,7 +24,7 @@ class MobileComponent extends React.Component<any, any> {
     ));
 
     // TODO: 适配移动端菜单
-    return <div></div>;
+    return <div/>;
   }
 }
 
