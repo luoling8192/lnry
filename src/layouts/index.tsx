@@ -1,7 +1,6 @@
 import BackTop from '@/components/BackTop';
 import Banner from '@/components/Banner';
 import Menu from '@/components/Menu';
-import initLeanCloud from '@/services/leancloud';
 import styles from '@/styles/layout.less';
 import { ConfigProvider } from 'antd';
 import 'antd/es/config-provider/style';
@@ -23,11 +22,6 @@ window.onscroll = () => {
 };
 
 export default class Layout extends React.Component<any, any> {
-  constructor(props: any) {
-    super(props);
-    initLeanCloud(); // TODO: 修复重复调用bug
-  }
-
   render() {
     return (
       <ConfigProvider locale={zh_CN}>

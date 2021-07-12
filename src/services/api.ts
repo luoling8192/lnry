@@ -24,7 +24,6 @@ async function getInfo($type: string, $objectID?: string) {
 
 export async function getProduct($objectID?: string) {
   const data = await getInfo('product', $objectID);
-  console.log($objectID);
   if ($objectID) return data;
   return data.map(($data: any) => ({
     ...$data.toJSON(),
