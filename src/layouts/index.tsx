@@ -1,19 +1,18 @@
-import React from 'react';
-import { ConfigProvider } from 'antd';
-import styles from '@/styles/layout.less';
-import Menu from '@/components/Menu';
 import BackTop from '@/components/BackTop';
+import Banner from '@/components/Banner';
+import Menu from '@/components/Menu';
+import initLeanCloud from '@/services/leancloud';
+import styles from '@/styles/layout.less';
+import { ConfigProvider } from 'antd';
+import 'antd/es/config-provider/style';
 import zh_CN from 'antd/es/locale/zh_CN';
 import moment from 'moment';
-import 'antd/es/config-provider/style';
 import 'moment/locale/zh-cn';
-import Banner from '@/components/Banner';
-import initLeanCloud from '@/services/leancloud';
+import React from 'react';
 
 moment.locale('zh-cn');
 
 window.onscroll = () => {
-  // TODO: 修复无效bug
   const $ = require('jquery');
   let t = document.documentElement.scrollTop || document.body.scrollTop;
   if (t > 0) {
@@ -26,7 +25,7 @@ window.onscroll = () => {
 export default class Layout extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
-    initLeanCloud();
+    initLeanCloud(); // TODO: 修复重复调用bug
   }
 
   render() {
