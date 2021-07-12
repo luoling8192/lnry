@@ -1,14 +1,14 @@
 import scrollToAnchor from '@/scripts/scrollToAnchor';
 import { getNews } from '@/services/api';
+import { app } from '@/services/leancloud';
+import styles from '@/styles/news.less';
 import { history } from '@@/core/history';
+import { CalendarOutlined, EyeOutlined, UserOutlined } from '@ant-design/icons';
+import { Breadcrumb, Skeleton, Typography } from 'antd';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
-import { Typography, Breadcrumb, Skeleton } from 'antd';
-import styles from '@/styles/news.less';
-import { CalendarOutlined, UserOutlined, EyeOutlined } from '@ant-design/icons';
 // @ts-ignore
 import Valine from 'valine';
-import { app } from '@/services/leancloud';
 
 export default class News extends React.Component<any, any> {
   constructor(props: any) {
@@ -63,7 +63,7 @@ export default class News extends React.Component<any, any> {
             <CalendarOutlined /> {this.state.date} &emsp;
             <UserOutlined /> {this.state.author} &emsp;
             <span
-              id="article-counter"
+              id={this.state.id}
               className="leancloud_visitors"
               data-flag-title={this.state.title}
             >
