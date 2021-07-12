@@ -1,8 +1,7 @@
 import ProductViewer from '@/components/ProductViewer';
 import { getProduct } from '@/services/api';
 import productStyles from '@/styles/productView.less';
-import { Image, Pagination, Typography } from 'antd';
-import { Carousel } from 'antd-mobile';
+import { Carousel, Image, Pagination, Typography } from 'antd';
 import React from 'react';
 
 class MobileProductShow extends React.Component<any, any> {
