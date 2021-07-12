@@ -63,7 +63,7 @@ export default class News extends React.Component<any, any> {
             <CalendarOutlined /> {this.state.date} &emsp;
             <UserOutlined /> {this.state.author} &emsp;
             <span
-              id={this.state.id}
+              id={window.location.pathname}
               className="leancloud_visitors"
               data-flag-title={this.state.title}
             >
