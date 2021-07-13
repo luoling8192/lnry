@@ -1,7 +1,7 @@
 import ProductViewer from '@/components/ProductViewer';
 import { getProduct } from '@/services/api';
 import productStyles from '@/styles/productView.less';
-import { Carousel, Image, Pagination, Typography } from 'antd';
+import { Carousel, Col, Image, Pagination, Row, Typography } from 'antd';
 import React from 'react';
 
 class MobileProductShow extends React.Component<any, any> {
@@ -22,7 +22,7 @@ class MobileProductShow extends React.Component<any, any> {
     return (
       <Typography id={'show'}>
         <Typography.Title>产品展示</Typography.Title>
-        <Carousel style={{ minHeight: '312px' }} autoplay>
+        <Carousel autoplay>
           {this.state.list &&
             this.state.list.length > 0 &&
             this.state.list.map(($data: any) => (
@@ -48,6 +48,12 @@ class DesktopProductShow extends React.Component<any, any> {
   }
 
   async componentDidMount() {
+    // @ts-ignore
+    const pageSize = Math.floor(
+      document.getElementById('container').offsetWidth / 320,
+    );
+    this.setState({ pageSize: pageSize, maxValue: pageSize });
+
     const data = await getProduct();
     this.setState({
       showList: data,
@@ -72,21 +78,27 @@ class DesktopProductShow extends React.Component<any, any> {
     return (
       <Typography id={'show'}>
         <Typography.Title>产品展示</Typography.Title>
-        <div className={productStyles.productView} id={'container'}>
+        <Row
+          className={productStyles.productView}
+          id={'container'}
+          justify="center"
+        >
           <Image.PreviewGroup>
             {this.state.showList &&
               this.state.showList.length > 0 &&
               this.state.showList
                 .slice(this.state.minValue, this.state.maxValue)
                 .map(($data: any) => (
-                  <ProductViewer
-                    key={$data.objectId}
-                    filename={$data.url}
-                    description={$data.title}
-                  />
+                  <Col span={6}>
+                    <ProductViewer
+                      key={$data.objectId}
+                      filename={$data.url}
+                      description={$data.title}
+                    />
+                  </Col>
                 ))}
           </Image.PreviewGroup>
-        </div>
+        </Row>
 
         <Pagination
           defaultCurrent={this.state.current}

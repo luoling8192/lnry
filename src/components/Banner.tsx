@@ -15,7 +15,6 @@ export default class Banner extends React.Component<any, any> {
 
   async componentDidMount() {
     const data = await getBanner();
-    console.log(data);
     this.setState({ banner_url: data });
   }
 
