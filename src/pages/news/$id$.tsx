@@ -15,9 +15,9 @@ export default class News extends React.Component<any, any> {
     super(props);
     this.state = {
       id: 1,
-      title: <Skeleton active />,
-      date: <Skeleton active />,
-      author: <Skeleton active />,
+      title: 'Loading...',
+      date: 'Loading...',
+      author: 'Loading...',
       content: <Skeleton active />,
     };
   }
